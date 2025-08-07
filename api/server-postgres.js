@@ -38,7 +38,9 @@ const pool = new Pool({
     ssl: {
         rejectUnauthorized: false,
         sslmode: 'require'
-    }
+    },
+    // Forzar IPv4 para evitar problemas de conectividad
+    family: 4
 });
 
 // Verificar conexión
