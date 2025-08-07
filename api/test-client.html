@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TiendaRopa API - Cliente de Prueba</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        .api-url {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        .api-url input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .endpoints {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .endpoint-card {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .endpoint-card h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .method {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .method.get {
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+
+        .method.post {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        }
+
+        .response {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .status {
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+
+        .status.success {
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+
+        .status.error {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .status.loading {
+            background: #bee3f8;
+            color: #3182ce;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .endpoints {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏪 TiendaRopa API</h1>
+            <p>Cliente de Prueba para la API</p>
+        </div>
+
+        <div class="api-url">
+            <label for="apiUrl">URL de la API:</label>
+            <input type="text" id="apiUrl" value="http://localhost:3000" placeholder="https://tu-api.onrender.com">
+        </div>
+
+        <div class="endpoints">
+            <!-- Test Endpoint -->
+            <div class="endpoint-card">
+                <h3>
+                    <span class="method get">GET</span>
+                    Test API
+                </h3>
+                <p>Prueba la conectividad de la API</p>
+                <button class="btn" onclick="testAPI()">Probar API</button>
+                <div id="testResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Stats Endpoint -->
+            <div class="endpoint-card">
+                <h3>
+                    <span class="method get">GET</span>
+                    Estadísticas
+                </h3>
+                <p>Obtener estadísticas generales</p>
+                <button class="btn" onclick="getStats()">Obtener Stats</button>
+                <div id="statsResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Productos Endpoint -->
+            <div class="endpoint-card">
+                <h3>
+                    <span class="method get">GET</span>
+                    Productos
+                </h3>
+                <p>Obtener todos los productos</p>
+                <button class="btn" onclick="getProductos()">Obtener Productos</button>
+                <div id="productosResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Crear Producto -->
+            <div class="endpoint-card">
+                <h3>
+                    <span class="method post">POST</span>
+                    Crear Producto
+                </h3>
+                <p>Crear un nuevo producto</p>
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input type="text" id="productoNombre" placeholder="Camisa Azul">
+                </div>
+                <div class="form-group">
+                    <label>Precio:</label>
+                    <input type="number" id="productoPrecio" placeholder="29.99" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Talla:</label>
+                    <select id="productoTalla">
+                        <option value="">Seleccionar</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Color:</label>
+                    <input type="text" id="productoColor" placeholder="Azul">
+                </div>
+                <div class="form-group">
+                    <label>Stock:</label>
+                    <input type="number" id="productoStock" placeholder="10" min="0">
+                </div>
+                <button class="btn" onclick="createProducto()">Crear Producto</button>
+                <div id="createProductoResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Clientes Endpoint -->
+            <div class="endpoint-card">
+                <h3>
+                    <span class="method get">GET</span>
+                    Clientes
+                </h3>
+                <p>Obtener todos los clientes</p>
+                <button class="btn" onclick="getClientes()">Obtener Clientes</button>
+                <div id="clientesResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Crear Cliente -->
+            <div class="endpoint-card">
+                <h3>
+                    <span class="method post">POST</span>
+                    Crear Cliente
+                </h3>
+                <p>Crear un nuevo cliente</p>
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input type="text" id="clienteNombre" placeholder="Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono:</label>
+                    <input type="tel" id="clienteTelefono" placeholder="999-111-2233">
+                </div>
+                <div class="form-group">
+                    <label>Correo:</label>
+                    <input type="email" id="clienteCorreo" placeholder="juan@email.com">
+                </div>
+                <button class="btn" onclick="createCliente()">Crear Cliente</button>
+                <div id="createClienteResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Ventas Endpoint -->
+            <div class="endpoint-card">
+                <h3>
+                    <span class="method get">GET</span>
+                    Ventas
+                </h3>
+                <p>Obtener todas las ventas</p>
+                <button class="btn" onclick="getVentas()">Obtener Ventas</button>
+                <div id="ventasResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Crear Venta -->
+            <div class="endpoint-card">
+                <h3>
+                    <span class="method post">POST</span>
+                    Crear Venta
+                </h3>
+                <p>Crear una nueva venta</p>
+                <div class="form-group">
+                    <label>Fecha:</label>
+                    <input type="date" id="ventaFecha" value="">
+                </div>
+                <div class="form-group">
+                    <label>Total:</label>
+                    <input type="number" id="ventaTotal" placeholder="99.99" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Cliente ID:</label>
+                    <input type="number" id="ventaClienteId" placeholder="1">
+                </div>
+                <button class="btn" onclick="createVenta()">Crear Venta</button>
+                <div id="createVentaResponse" class="response" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn secondary" onclick="clearAll()">Limpiar Todas las Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = document.getElementById('apiUrl');
+        
+        // Función para mostrar respuesta
+        function showResponse(elementId, data, isError = false) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.textContent = JSON.stringify(data, null, 2);
+            element.className = `response ${isError ? 'error' : 'success'}`;
+        }
+
+        // Función para hacer requests
+        async function makeRequest(endpoint, method = 'GET', data = null) {
+            const url = API_BASE.value + endpoint;
+            const options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            if (data && method !== 'GET') {
+                options.body = JSON.stringify(data);
+            }
+
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Error en la request');
+                }
+                
+                return result;
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // Test API
+        async function testAPI() {
+            try {
+                const result = await makeRequest('/api/test');
+                showResponse('testResponse', result);
+            } catch (error) {
+                showResponse('testResponse', { error: error.message }, true);
+            }
+        }
+
+        // Get Stats
+        async function getStats() {
+            try {
+                const result = await makeRequest('/api/stats');
+                showResponse('statsResponse', result);
+            } catch (error) {
+                showResponse('statsResponse', { error: error.message }, true);
+            }
+        }
+
+        // Get Productos
+        async function getProductos() {
+            try {
+                const result = await makeRequest('/api/productos');
+                showResponse('productosResponse', result);
+            } catch (error) {
+                showResponse('productosResponse', { error: error.message }, true);
+            }
+        }
+
+        // Create Producto
+        async function createProducto() {
+            const data = {
+                Nombre: document.getElementById('productoNombre').value,
+                Precio: parseFloat(document.getElementById('productoPrecio').value),
+                Talla: document.getElementById('productoTalla').value,
+                Color: document.getElementById('productoColor').value,
+                Stock: parseInt(document.getElementById('productoStock').value) || 0
+            };
+
+            try {
+                const result = await makeRequest('/api/productos', 'POST', data);
+                showResponse('createProductoResponse', result);
+            } catch (error) {
+                showResponse('createProductoResponse', { error: error.message }, true);
+            }
+        }
+
+        // Get Clientes
+        async function getClientes() {
+            try {
+                const result = await makeRequest('/api/clientes');
+                showResponse('clientesResponse', result);
+            } catch (error) {
+                showResponse('clientesResponse', { error: error.message }, true);
+            }
+        }
+
+        // Create Cliente
+        async function createCliente() {
+            const data = {
+                Nombre: document.getElementById('clienteNombre').value,
+                Telefono: document.getElementById('clienteTelefono').value,
+                Correo: document.getElementById('clienteCorreo').value
+            };
+
+            try {
+                const result = await makeRequest('/api/clientes', 'POST', data);
+                showResponse('createClienteResponse', result);
+            } catch (error) {
+                showResponse('createClienteResponse', { error: error.message }, true);
+            }
+        }
+
+        // Get Ventas
+        async function getVentas() {
+            try {
+                const result = await makeRequest('/api/ventas');
+                showResponse('ventasResponse', result);
+            } catch (error) {
+                showResponse('ventasResponse', { error: error.message }, true);
+            }
+        }
+
+        // Create Venta
+        async function createVenta() {
+            const data = {
+                Fecha: document.getElementById('ventaFecha').value,
+                Total: parseFloat(document.getElementById('ventaTotal').value),
+                ID_Cliente: parseInt(document.getElementById('ventaClienteId').value) || null
+            };
+
+            try {
+                const result = await makeRequest('/api/ventas', 'POST', data);
+                showResponse('createVentaResponse', result);
+            } catch (error) {
+                showResponse('createVentaResponse', { error: error.message }, true);
+            }
+        }
+
+        // Clear all responses
+        function clearAll() {
+            const responses = document.querySelectorAll('.response');
+            responses.forEach(response => {
+                response.style.display = 'none';
+                response.textContent = '';
+            });
+        }
+
+        // Set current date in venta form
+        document.getElementById('ventaFecha').value = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html> 

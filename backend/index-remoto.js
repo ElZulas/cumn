@@ -44,6 +44,18 @@ app.get('/clientes', (req, res) => {
   });
 });
 
+// Endpoint para obtener un cliente por ID
+app.get('/clientes/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT ID_Cliente, Nombre, Telefono, Correo FROM Clientes WHERE ID_Cliente = ?', [id], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener cliente' });
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Cliente no encontrado' });
+    }
+    res.json(results[0]);
+  });
+});
+
 // Endpoint para eliminar un cliente
 app.delete('/clientes/:id', (req, res) => {
   const id = req.params.id;
@@ -91,6 +103,18 @@ app.get('/productos', (req, res) => {
   });
 });
 
+// Endpoint para obtener un producto por ID
+app.get('/productos/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT ID_Producto, Nombre, Descripcion, Talla, Color, Precio, Marca, Tipo_Prenda, Temporada, Stock, ID_Proveedor FROM Productos WHERE ID_Producto = ?', [id], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener producto' });
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+    res.json(results[0]);
+  });
+});
+
 // Endpoint para eliminar un producto
 app.delete('/productos/:id', (req, res) => {
   const id = req.params.id;
@@ -124,6 +148,18 @@ app.get('/proveedores', (req, res) => {
   });
 });
 
+// Endpoint para obtener un proveedor por ID
+app.get('/proveedores/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT ID_Proveedor, Nombre, Telefono, Correo FROM Proveedores WHERE ID_Proveedor = ?', [id], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener proveedor' });
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Proveedor no encontrado' });
+    }
+    res.json(results[0]);
+  });
+});
+
 // Endpoint para eliminar un proveedor
 app.delete('/proveedores/:id', (req, res) => {
   const id = req.params.id;
@@ -154,6 +190,18 @@ app.get('/ventas', (req, res) => {
   db.query('SELECT ID_Venta, Fecha, Total, ID_Cliente FROM Ventas', (err, results) => {
     if (err) return res.status(500).json({ error: 'Error al obtener ventas' });
     res.json(results);
+  });
+});
+
+// Endpoint para obtener una venta por ID
+app.get('/ventas/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT ID_Venta, Fecha, Total, ID_Cliente FROM Ventas WHERE ID_Venta = ?', [id], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener venta' });
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Venta no encontrada' });
+    }
+    res.json(results[0]);
   });
 });
 

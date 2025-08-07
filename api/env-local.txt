@@ -1,0 +1,15 @@
+# Configuración de la base de datos local
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=1234
+DB_NAME=tiendaropa
+DB_PORT=3306
+
+# Configuración del servidor
+PORT=3000
+NODE_ENV=development
+
+# Configuración de seguridad (para desarrollo)
+CORS_ORIGIN=*
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100 

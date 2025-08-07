@@ -176,6 +176,108 @@
             margin-bottom: 20px;
         }
 
+        /* Estilos para la búsqueda por ID */
+        .search-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .search-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .search-result {
+            margin-top: 15px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .search-result table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .search-result th, .search-result td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .search-result th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
         @media (max-width: 768px) {
             .nav-tabs {
                 flex-direction: column;
@@ -183,6 +285,11 @@
             
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .search-container {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
     </style>
@@ -235,6 +342,17 @@
         <div id="clientes" class="tab-content">
             <h2 class="section-title">👥 Registro de Clientes</h2>
             <p class="info-text">Vista de todos los clientes registrados en el sistema.</p>
+            
+            <!-- Búsqueda por ID -->
+            <div class="search-section">
+                <h3>🔍 Búsqueda por ID</h3>
+                <div class="search-container">
+                    <input type="number" id="clienteBuscarId" placeholder="Ingrese el ID del cliente">
+                    <button type="button" onclick="buscarClientePorId()" class="btn-secondary">🔍 Buscar</button>
+                </div>
+                <div id="clienteResultadoBusqueda" class="search-result"></div>
+            </div>
+            
             <div class="alert alert-info">
                 <strong>Nota:</strong> Esta es una vista de solo lectura. No se pueden realizar modificaciones.
             </div>
@@ -245,6 +363,17 @@
         <div id="productos" class="tab-content">
             <h2 class="section-title">👕 Catálogo de Productos</h2>
             <p class="info-text">Inventario completo de productos disponibles en la tienda.</p>
+            
+            <!-- Búsqueda por ID -->
+            <div class="search-section">
+                <h3>🔍 Búsqueda por ID</h3>
+                <div class="search-container">
+                    <input type="number" id="productoBuscarId" placeholder="Ingrese el ID del producto">
+                    <button type="button" onclick="buscarProductoPorId()" class="btn-secondary">🔍 Buscar</button>
+                </div>
+                <div id="productoResultadoBusqueda" class="search-result"></div>
+            </div>
+            
             <div class="alert alert-info">
                 <strong>Nota:</strong> Esta es una vista de solo lectura. No se pueden realizar modificaciones.
             </div>
@@ -255,6 +384,17 @@
         <div id="proveedores" class="tab-content">
             <h2 class="section-title">🏭 Proveedores Registrados</h2>
             <p class="info-text">Lista de todos los proveedores que abastecen la tienda.</p>
+            
+            <!-- Búsqueda por ID -->
+            <div class="search-section">
+                <h3>🔍 Búsqueda por ID</h3>
+                <div class="search-container">
+                    <input type="number" id="proveedorBuscarId" placeholder="Ingrese el ID del proveedor">
+                    <button type="button" onclick="buscarProveedorPorId()" class="btn-secondary">🔍 Buscar</button>
+                </div>
+                <div id="proveedorResultadoBusqueda" class="search-result"></div>
+            </div>
+            
             <div class="alert alert-info">
                 <strong>Nota:</strong> Esta es una vista de solo lectura. No se pueden realizar modificaciones.
             </div>
@@ -265,6 +405,17 @@
         <div id="ventas" class="tab-content">
             <h2 class="section-title">💰 Historial de Ventas</h2>
             <p class="info-text">Registro completo de todas las transacciones realizadas.</p>
+            
+            <!-- Búsqueda por ID -->
+            <div class="search-section">
+                <h3>🔍 Búsqueda por ID</h3>
+                <div class="search-container">
+                    <input type="number" id="ventaBuscarId" placeholder="Ingrese el ID de la venta">
+                    <button type="button" onclick="buscarVentaPorId()" class="btn-secondary">🔍 Buscar</button>
+                </div>
+                <div id="ventaResultadoBusqueda" class="search-result"></div>
+            </div>
+            
             <div class="alert alert-info">
                 <strong>Nota:</strong> Esta es una vista de solo lectura. No se pueden realizar modificaciones.
             </div>
@@ -442,6 +593,172 @@
         window.onload = function() {
             loadDashboard();
         };
+
+        // Funciones de búsqueda por ID
+        async function buscarClientePorId() {
+            const id = document.getElementById('clienteBuscarId').value;
+            if (!id) {
+                document.getElementById('clienteResultadoBusqueda').innerHTML = 
+                    '<div class="alert alert-warning">Por favor ingrese un ID válido</div>';
+                return;
+            }
+            try {
+                const response = await fetch(`${API_URL}/clientes/${id}`);
+                const resultado = document.getElementById('clienteResultadoBusqueda');
+                if (response.ok) {
+                    const cliente = await response.json();
+                    resultado.innerHTML = `
+                        <div class="alert alert-success">
+                            <h4>Cliente Encontrado:</h4>
+                            <table class="search-result table">
+                                <tr><th>ID</th><td>${cliente.ID_Cliente}</td></tr>
+                                <tr><th>Nombre</th><td>${cliente.Nombre}</td></tr>
+                                <tr><th>Teléfono</th><td>${cliente.Telefono}</td></tr>
+                                <tr><th>Correo</th><td>${cliente.Correo}</td></tr>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    resultado.innerHTML = `
+                        <div class="alert alert-warning">
+                            No se encontró ningún cliente con el ID ${id}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error buscando cliente:', error);
+                document.getElementById('clienteResultadoBusqueda').innerHTML = `
+                    <div class="alert alert-danger">
+                        Error al buscar cliente
+                    </div>
+                `;
+            }
+        }
+
+        async function buscarProductoPorId() {
+            const id = document.getElementById('productoBuscarId').value;
+            if (!id) {
+                document.getElementById('productoResultadoBusqueda').innerHTML = 
+                    '<div class="alert alert-warning">Por favor ingrese un ID válido</div>';
+                return;
+            }
+            try {
+                const response = await fetch(`${API_URL}/productos/${id}`);
+                const resultado = document.getElementById('productoResultadoBusqueda');
+                if (response.ok) {
+                    const producto = await response.json();
+                    resultado.innerHTML = `
+                        <div class="alert alert-success">
+                            <h4>Producto Encontrado:</h4>
+                            <table class="search-result table">
+                                <tr><th>ID</th><td>${producto.ID_Producto}</td></tr>
+                                <tr><th>Nombre</th><td>${producto.Nombre}</td></tr>
+                                <tr><th>Talla</th><td>${producto.Talla}</td></tr>
+                                <tr><th>Color</th><td>${producto.Color}</td></tr>
+                                <tr><th>Precio</th><td>$${producto.Precio}</td></tr>
+                                <tr><th>Marca</th><td>${producto.Marca}</td></tr>
+                                <tr><th>Tipo</th><td>${producto.Tipo_Prenda}</td></tr>
+                                <tr><th>Temporada</th><td>${producto.Temporada}</td></tr>
+                                <tr><th>Stock</th><td>${producto.Stock}</td></tr>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    resultado.innerHTML = `
+                        <div class="alert alert-warning">
+                            No se encontró ningún producto con el ID ${id}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error buscando producto:', error);
+                document.getElementById('productoResultadoBusqueda').innerHTML = `
+                    <div class="alert alert-danger">
+                        Error al buscar producto
+                    </div>
+                `;
+            }
+        }
+
+        async function buscarProveedorPorId() {
+            const id = document.getElementById('proveedorBuscarId').value;
+            if (!id) {
+                document.getElementById('proveedorResultadoBusqueda').innerHTML = 
+                    '<div class="alert alert-warning">Por favor ingrese un ID válido</div>';
+                return;
+            }
+            try {
+                const response = await fetch(`${API_URL}/proveedores/${id}`);
+                const resultado = document.getElementById('proveedorResultadoBusqueda');
+                if (response.ok) {
+                    const proveedor = await response.json();
+                    resultado.innerHTML = `
+                        <div class="alert alert-success">
+                            <h4>Proveedor Encontrado:</h4>
+                            <table class="search-result table">
+                                <tr><th>ID</th><td>${proveedor.ID_Proveedor}</td></tr>
+                                <tr><th>Nombre</th><td>${proveedor.Nombre}</td></tr>
+                                <tr><th>Teléfono</th><td>${proveedor.Telefono}</td></tr>
+                                <tr><th>Correo</th><td>${proveedor.Correo}</td></tr>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    resultado.innerHTML = `
+                        <div class="alert alert-warning">
+                            No se encontró ningún proveedor con el ID ${id}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error buscando proveedor:', error);
+                document.getElementById('proveedorResultadoBusqueda').innerHTML = `
+                    <div class="alert alert-danger">
+                        Error al buscar proveedor
+                    </div>
+                `;
+            }
+        }
+
+        async function buscarVentaPorId() {
+            const id = document.getElementById('ventaBuscarId').value;
+            if (!id) {
+                document.getElementById('ventaResultadoBusqueda').innerHTML = 
+                    '<div class="alert alert-warning">Por favor ingrese un ID válido</div>';
+                return;
+            }
+            try {
+                const response = await fetch(`${API_URL}/ventas/${id}`);
+                const resultado = document.getElementById('ventaResultadoBusqueda');
+                if (response.ok) {
+                    const venta = await response.json();
+                    resultado.innerHTML = `
+                        <div class="alert alert-success">
+                            <h4>Venta Encontrada:</h4>
+                            <table class="search-result table">
+                                <tr><th>ID</th><td>${venta.ID_Venta}</td></tr>
+                                <tr><th>Fecha</th><td>${new Date(venta.Fecha).toLocaleDateString()}</td></tr>
+                                <tr><th>Total</th><td>$${venta.Total}</td></tr>
+                                <tr><th>ID Cliente</th><td>${venta.ID_Cliente}</td></tr>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    resultado.innerHTML = `
+                        <div class="alert alert-warning">
+                            No se encontró ninguna venta con el ID ${id}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error buscando venta:', error);
+                document.getElementById('ventaResultadoBusqueda').innerHTML = `
+                    <div class="alert alert-danger">
+                        Error al buscar venta
+                    </div>
+                `;
+            }
+        }
     </script>
 </body>
 </html> 

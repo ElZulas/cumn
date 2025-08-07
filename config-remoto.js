@@ -2,10 +2,10 @@
 // Modifica estos valores con la información de tu amigo
 
 const configRemoto = {
-    host: 'localhost', // Cambiar a localhost para conexión local
+    host: '10.3.0.144', // Nueva IP de tu amigo
     user: 'root', // Usuario MySQL
-    password: 'Preventa1', // Tu contraseña MySQL
-    database: 'TiendaRopa', // Nombre de tu base de datos
+    password: 'Preventa1', // Contraseña MySQL de tu amigo
+    database: 'tiendaropa', // Nombre de la base de datos
     port: 3306, // Puerto MySQL
     // Opciones adicionales para conexión remota
     connectionLimit: 10,
