@@ -11,9 +11,7 @@ const PORT = process.env.PORT || 3000;
 // Configuración de seguridad
 app.use(helmet());
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? ['https://tu-frontend.vercel.app', 'https://tu-frontend.netlify.app']
-        : '*'
+    origin: '*'
 }));
 
 // Rate limiting
